@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08090d" />
+    <title>陈鹏宇 | AI 辅助开发与影像创作</title>
+    <meta
+      name="description"
+      content="陈鹏宇，来自浙江温州，上海建桥学院机电一体化专业大一学生。专注 AI 辅助开发、前端网站、小程序与 AI 生图服务。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="field" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <a class="brand" href="#hero" aria-label="返回首页">
+        <span>CPY</span>
+        <small>AI Builder</small>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#work">作品</a>
+        <a href="#story">经历</a>
+        <a href="#service">服务</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="landing-intro" id="intro" aria-label="陈鹏宇视觉首屏">
+        <div class="landing-frame">
+          <video
+            class="landing-video"
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+          ></video>
+          <div class="landing-shade" aria-hidden="true"></div>
+          <div class="noise-overlay landing-noise" aria-hidden="true"></div>
+
+          <nav class="landing-nav" aria-label="视觉首屏导航">
+            <a href="#hero">Home</a>
+            <a href="#work">作品</a>
+            <a href="#story">经历</a>
+            <a href="#service">服务</a>
+            <a href="#contact">联系</a>
+          </nav>
+
+          <div class="landing-content">
+            <div class="landing-title-wrap">
+              <p class="landing-kicker">AI Builder / Visual Maker / Mini Program</p>
+              <h1 class="landing-title words-pull-up" data-text="Chen Pengyu">Chen Pengyu</h1>
+            </div>
+            <div class="landing-side">
+              <p class="landing-description fade-up">
+                我是陈鹏宇，一个正在用 AI 加速创造的人。把想法快速做成能被打开、能被体验、能被传播的作品。
+              </p>
+              <a class="landing-cta fade-up delay" href="#work">
+                <span>View work</span>
+                <span class="landing-cta-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <p class="kicker">Zhejiang Wenzhou / Shanghai Jian Qiao University</p>
+          <h1>陈鹏宇</h1>
+          <p class="lead">
+            我是一个刚开始用 AI 加速创造的人。上个月接触 AI 编程后，我用一周做出了智能影片推荐网站和奥斯卡获奖榜单网站，也正在把 AI 生图、小程序和前端页面落到真实合作里。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">查看作品</a>
+            <a class="button ghost" href="#contact">加我微信</a>
+          </div>
+        </div>
+
+        <div class="hero-stage" aria-label="陈鹏宇形象照">
+          <div class="image-rig">
+            <img src="assets/hero-chen-pengyu.png" alt="陈鹏宇 AdventureX 2025 个人介绍主视觉" />
+            <div class="glass-panel panel-a">
+              <span>AI DEV</span>
+              <strong>8h/day</strong>
+            </div>
+            <div class="glass-panel panel-b">
+              <span>MINI APP</span>
+              <strong>WEB</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="identity strip">
+        <div>
+          <span class="label">现在的我</span>
+          <p>上海建桥学院专科机电一体化专业大一学生，来自浙江温州。</p>
+        </div>
+        <div>
+          <span class="label">核心能力</span>
+          <p>AI 辅助开发、小程序、前端网站、AI 图片生成与视觉包装。</p>
+        </div>
+        <div>
+          <span class="label">一句话</span>
+          <p>把想法快速做成能被打开、能被体验、能被传播的作品。</p>
+        </div>
+      </section>
+
+      <section class="section work" id="work">
+        <div class="section-head">
+          <p class="kicker">Selected Work</p>
+          <h2>作品控制台</h2>
+          <p>我的作品</p>
+        </div>
+
+        <div class="work-scroll" aria-label="堆叠滚动作品展示">
+          <aside class="work-menu" aria-label="作品索引">
+            <a class="work-menu-item is-active" href="#project-oscar">
+              <span>01</span>
+              <strong>AI 奥斯卡观影系统</strong>
+              <small>智能观影推荐</small>
+            </a>
+            <a class="work-menu-item" href="#project-history">
+              <span>02</span>
+              <strong>我的 AI 进化史</strong>
+              <small>AI 学习叙事网站</small>
+            </a>
+            <a class="work-menu-item" href="#project-studio">
+              <span>03</span>
+              <strong>择光摄影工作室</strong>
+              <small>影楼小程序合作</small>
+            </a>
+            <a class="work-menu-item" href="#project-game">
+              <span>04</span>
+              <strong>愚人节整蛊大作战</strong>
+              <small>轻量小程序游戏</small>
+            </a>
+          </aside>
+          <div class="work-grid">
+          <article class="project feature" id="project-oscar" data-url="https://oscai.coze.site/" data-title="AI 奥斯卡观影系统" data-preview="cover">
+            <img src="assets/oscar-system-cover.png" alt="AI 奥斯卡观影推荐系统截图" />
+            <div class="project-copy">
+              <span>01 / AI Web</span>
+              <h3>AI 奥斯卡观影系统</h3>
+              <p>一周内用 AI 辅助完成智能影片推荐网站，并追加奥斯卡历届获奖榜单页面。</p>
+              <button class="project-open" type="button">打开项目</button>
+            </div>
+          </article>
+
+          <article class="project" id="project-history" data-url="https://pengyuchen2025-ship-it.github.io/wangzhanbei-site/" data-title="我的 AI 进化史">
+            <img src="assets/ai-history-cover.png" alt="我的 AI 进化史网站截图" />
+            <div class="project-copy">
+              <span>02 / Claude Code</span>
+              <h3>我的 AI 进化史</h3>
+              <p>用一个早上完成的网站实验，记录从接触 AI 到快速搭建作品的变化。</p>
+              <button class="project-open" type="button">打开项目</button>
+            </div>
+          </article>
+
+          <article class="project" id="project-studio" data-url="#" data-title="择光摄影工作室">
+            <img src="assets/photostudio-home.png" alt="择光摄影工作室小程序首页" />
+            <div class="project-copy">
+              <span>03 / Mini Program</span>
+              <h3>择光摄影工作室</h3>
+              <p>与学校周边影楼合作，用 AI 生图服务结合线上小程序，探索真实商业场景。</p>
+              <button class="project-open" type="button">项目展示</button>
+            </div>
+          </article>
+
+          <article class="project" id="project-game" data-url="#" data-title="愚人节整蛊大作战">
+            <img src="assets/april-game.png" alt="愚人节整蛊大作战小程序截图" />
+            <div class="project-copy">
+              <span>04 / Game</span>
+              <h3>愚人节整蛊大作战</h3>
+              <p>简易小程序游戏，用轻量交互完成节日主题玩法。</p>
+              <button class="project-open" type="button">项目展示</button>
+            </div>
+          </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section gallery" id="gallery">
+        <div class="section-head">
+          <p class="kicker">AI Image Experiments</p>
+          <h2>AI 生图与视觉包装</h2>
+          <p>这些图是你可以给别人看的审美证据：不只是会用工具，而是知道画面、风格和商业包装怎么落地。</p>
+        </div>
+        <div class="gallery-track" aria-label="AI 生图作品集">
+          <img src="assets/ai-sketch.jpg" alt="黑白手绘风人物图" />
+          <img src="assets/ai-wedding-men.png" alt="暖色婚礼影像风人物图" />
+          <img src="assets/ai-magazine-red.png" alt="红黑杂志封面风人物图" />
+          <img src="assets/ai-equilibre.png" alt="高级杂志封面风双人图" />
+          <img src="assets/ai-car-wedding.png" alt="车内婚礼影像风作品" />
+          <img src="assets/ai-lofficiel-red.jpg" alt="红玫瑰杂志封面风作品" />
+          <img src="assets/ai-fashion-sky.png" alt="蓝天时装大片风作品" />
+          <img src="assets/ai-fashion-purple.png" alt="紫色时尚封面风作品" />
+          <img src="assets/ai-receipt.png" alt="红色票据创意人像作品" />
+          <img src="assets/ai-underwater.png" alt="水下金鱼人像作品" />
+        </div>
+      </section>
+
+      <section class="section story" id="story">
+        <div class="section-head">
+          <p class="kicker">Timeline</p>
+          <h2>成长轨迹</h2>
+        </div>
+        <ol class="timeline">
+          <li>
+            <span>2023</span>
+            <p>接触树成林，并一直跟随学习到现在。</p>
+          </li>
+          <li>
+            <span>2026 / 上个月</span>
+            <p>开始接触 AI 编程，用一周做出智能影片推荐网站和获奖榜单网站。</p>
+          </li>
+          <li>
+            <span>2026 / 2050</span>
+            <p>参加 2050 AI 大会，开始把 AI 学习和真实社群连接起来。</p>
+          </li>
+          <li>
+            <span>现在</span>
+            <p>树成林 26 百天 IP 训练营成员，每天投入约 8 小时使用 AI，持续迭代作品。</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section service" id="service">
+        <div class="section-head">
+          <p class="kicker">What I Can Offer</p>
+          <h2>可以提供</h2>
+        </div>
+        <div class="service-grid">
+          <article>
+            <span>AI IMAGE</span>
+            <h3>AI 生图服务</h3>
+            <p>人物写真、杂志封面、商业海报、影楼风格图、社媒视觉包装。</p>
+          </article>
+          <article>
+            <span>FRONTEND</span>
+            <h3>前端网页开发</h3>
+            <p>个人介绍页、作品集、活动展示页、品牌落地页、AI 工具页面。</p>
+          </article>
+          <article>
+            <span>MINI APP</span>
+            <h3>小程序开发</h3>
+            <p>预约、展示、轻游戏、订单入口，以及适合本地商家的线上服务流程。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact-copy">
+          <p class="kicker">Contact</p>
+          <h2>明天现场，我们可以聊聊 AI 能怎么落地。</h2>
+          <p>微信：<strong>cpy815355151</strong></p>
+        </div>
+        <img class="qr" src="assets/wechat-qr.jpg" alt="陈鹏宇微信二维码" />
+      </section>
+    </main>
+
+    <div class="preview" id="preview" hidden>
+      <div class="preview-shell" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+        <div class="preview-bar">
+          <span id="previewTitle">项目预览</span>
+          <div>
+            <a id="previewLink" href="#" target="_blank" rel="noopener">新窗口打开</a>
+            <button id="previewClose" type="button" aria-label="关闭预览">×</button>
+          </div>
+        </div>
+        <iframe id="previewFrame" title="项目站点预览"></iframe>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
