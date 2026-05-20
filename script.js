@@ -320,11 +320,25 @@ projects.forEach((project) => {
 const workMenuItems = document.querySelectorAll(".work-menu-item");
 const workGrid = document.querySelector(".work-grid");
 const projectById = new Map([...projects].map((project) => [project.id, project]));
+let currentActiveProjectId = "";
 
 function setActiveProject(projectId) {
+  if (projectId === currentActiveProjectId) return;
+  currentActiveProjectId = projectId;
+  let activeItem = null;
   workMenuItems.forEach((item) => {
-    item.classList.toggle("is-active", item.getAttribute("href") === `#${projectId}`);
+    const isActive = item.getAttribute("href") === `#${projectId}`;
+    item.classList.toggle("is-active", isActive);
+    if (isActive) activeItem = item;
   });
+
+  if (activeItem && window.innerWidth <= 560) {
+    activeItem.scrollIntoView({
+      behavior: mediaQuery.matches ? "auto" : "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }
 }
 
 const projectObserver = new IntersectionObserver(
@@ -345,6 +359,42 @@ const projectObserver = new IntersectionObserver(
 
 projects.forEach((project) => projectObserver.observe(project));
 
+let workScrollTicking = false;
+
+function updateActiveProjectFromScroll() {
+  if (window.innerWidth > 560 || !workGrid || !projects.length) return;
+
+  const marker = window.scrollY + 190;
+  let activeProject = projects[0];
+
+  projects.forEach((project) => {
+    const projectTop = workGrid.getBoundingClientRect().top + window.scrollY + project.offsetTop;
+    if (projectTop <= marker) {
+      activeProject = project;
+    }
+  });
+
+  if (activeProject?.id) {
+    setActiveProject(activeProject.id);
+  }
+}
+
+window.addEventListener(
+  "scroll",
+  () => {
+    if (workScrollTicking) return;
+    workScrollTicking = true;
+    requestAnimationFrame(() => {
+      updateActiveProjectFromScroll();
+      workScrollTicking = false;
+    });
+  },
+  { passive: true },
+);
+
+window.addEventListener("resize", updateActiveProjectFromScroll);
+updateActiveProjectFromScroll();
+
 workMenuItems.forEach((item) => {
   item.addEventListener("click", (event) => {
     event.preventDefault();
@@ -352,7 +402,7 @@ workMenuItems.forEach((item) => {
     const target = projectById.get(targetId);
     if (target && workGrid) {
       setActiveProject(targetId);
-      const stickyOffset = window.innerWidth <= 920 ? 156 : 126;
+      const stickyOffset = window.innerWidth <= 560 ? 148 : window.innerWidth <= 920 ? 156 : 126;
       const gridTop = workGrid.getBoundingClientRect().top + window.scrollY;
       const targetTop = gridTop + target.offsetTop - stickyOffset;
       window.scrollTo({
