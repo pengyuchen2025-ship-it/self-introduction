@@ -1362,49 +1362,33 @@ main {
 
   .work-grid {
     display: grid;
-    gap: 0;
-    padding-bottom: 42vh;
+    gap: 18px;
+    padding-bottom: 24px;
   }
 
   .project,
   .project.feature {
-    position: sticky;
-    top: 154px;
+    position: relative;
+    top: auto;
     display: grid;
-    grid-template-rows: auto 1fr;
-    min-height: min(74vh, 620px);
+    min-height: 0;
     aspect-ratio: auto;
-    margin-bottom: 24vh;
+    margin-bottom: 0;
     overflow: hidden;
-    transform-origin: 50% 100%;
+    transform: none;
     will-change: auto;
   }
 
-  .project:nth-child(1) {
-    z-index: 1;
-    transform: rotate(-0.8deg) translateY(0);
-  }
-
-  .project:nth-child(2) {
-    z-index: 2;
-    transform: rotate(0.7deg) translateY(10px);
-  }
-
-  .project:nth-child(3) {
-    z-index: 3;
-    transform: rotate(-0.5deg) translateY(18px);
-  }
-
-  .project:nth-child(4) {
-    z-index: 4;
-    transform: rotate(0.5deg) translateY(26px);
+  .project:nth-child(n) {
+    z-index: auto;
+    transform: none;
   }
 
   .project img {
     position: relative;
     inset: auto;
     width: 100%;
-    height: clamp(160px, 44vw, 230px);
+    height: clamp(190px, 56vw, 260px);
     opacity: 0.82;
     transform: none;
   }
@@ -1423,17 +1407,17 @@ main {
     right: auto;
     bottom: auto;
     max-width: none;
-    padding: 18px 18px 22px;
+    padding: 20px 18px 22px;
   }
 
   .project-copy h3 {
-    font-size: clamp(23px, 7.1vw, 30px);
+    font-size: clamp(24px, 7.5vw, 30px);
   }
 
   .project-copy p {
     margin-bottom: 16px;
-    font-size: 15px;
-    line-height: 1.62;
+    font-size: 16px;
+    line-height: 1.65;
   }
 
   .project-open {
