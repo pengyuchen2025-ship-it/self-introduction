@@ -1295,19 +1295,117 @@ main {
     width: calc(100% - 24px);
   }
 
+  .section {
+    margin-top: 84px;
+  }
+
+  .section-head {
+    margin-bottom: 22px;
+  }
+
+  .section-head h2,
+  .contact h2 {
+    font-size: clamp(34px, 13vw, 48px);
+  }
+
+  .section-head p:not(.kicker) {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .work-scroll {
+    display: block;
+  }
+
+  .work-menu {
+    position: sticky;
+    top: 68px;
+    display: flex;
+    gap: 10px;
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    margin: 0 0 18px;
+    padding: 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+  }
+
+  .work-menu-item {
+    flex: 0 0 min(72vw, 260px);
+    scroll-snap-align: start;
+  }
+
+  .work-menu-item strong {
+    font-size: 18px;
+  }
+
+  .work-menu-item small {
+    font-size: 13px;
+  }
+
+  .work-grid {
+    display: grid;
+    gap: 18px;
+    padding-bottom: 24px;
+  }
+
   .project,
   .project.feature {
-    min-height: 460px;
+    position: relative;
+    top: auto;
+    display: grid;
+    min-height: 0;
+    aspect-ratio: auto;
+    margin-bottom: 0;
+    overflow: hidden;
+    transform: none;
+    will-change: auto;
+  }
+
+  .project:nth-child(n) {
+    z-index: auto;
+    transform: none;
+  }
+
+  .project img {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(190px, 56vw, 260px);
+    opacity: 0.82;
+    transform: none;
+  }
+
+  .project::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.68));
+  }
+
+  .project:hover img {
+    transform: none;
   }
 
   .project-copy {
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    max-width: none;
+    padding: 20px 18px 22px;
   }
 
   .project-copy h3 {
-    font-size: 25px;
+    font-size: clamp(24px, 7.5vw, 30px);
+  }
+
+  .project-copy p {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .project-open {
+    width: 100%;
   }
 
   .gallery-track {
