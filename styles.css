@@ -178,10 +178,41 @@ button {
   font: inherit;
 }
 
+.site-video-bg,
+.site-video-shade,
+.site-video-noise {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.site-video-bg {
+  z-index: 0;
+  object-fit: cover;
+  opacity: 0.74;
+  transform: translateZ(0);
+}
+
+.site-video-shade {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.56) 42%, rgba(0, 0, 0, 0.76) 100%),
+    radial-gradient(circle at 18% 24%, rgba(222, 219, 200, 0.1), transparent 36rem),
+    radial-gradient(circle at 86% 34%, rgba(120, 89, 58, 0.2), transparent 34rem);
+}
+
+.site-video-noise {
+  z-index: 2;
+  opacity: 0.46;
+  mix-blend-mode: overlay;
+}
+
 #field {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 3;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -252,14 +283,14 @@ body.at-intro .topbar {
 
 main {
   position: relative;
-  z-index: 3;
+  z-index: 4;
 }
 
 .landing-intro {
   position: relative;
   min-height: 100vh;
   padding: 0;
-  background: #000;
+  background: transparent;
 }
 
 .landing-frame {
@@ -268,38 +299,8 @@ main {
   overflow: hidden;
   border: 0;
   border-radius: 0;
-  background: #000;
+  background: transparent;
   box-shadow: none;
-}
-
-.landing-video,
-.landing-shade,
-.landing-noise {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.landing-video {
-  object-fit: cover;
-  opacity: 0.78;
-}
-
-.landing-shade {
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.14) 36%, rgba(0, 0, 0, 0.86) 100%),
-    radial-gradient(circle at 20% 78%, rgba(222, 219, 200, 0.12), transparent 38rem),
-    radial-gradient(circle at 88% 42%, rgba(120, 89, 58, 0.22), transparent 34rem);
-}
-
-.landing-noise {
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0.7;
-  mix-blend-mode: overlay;
 }
 
 .landing-nav {
@@ -579,7 +580,7 @@ main {
   padding: 14px;
   border: 1px solid rgba(245, 240, 223, 0.18);
   border-radius: 8px;
-  background: rgba(8, 9, 13, 0.62);
+  background: rgba(8, 9, 13, 0.46);
   backdrop-filter: blur(16px);
   box-shadow: 0 20px 70px var(--shadow);
 }
@@ -611,7 +612,7 @@ main {
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(8, 9, 13, 0.34);
   backdrop-filter: blur(18px);
 }
 
@@ -753,7 +754,7 @@ main {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(8, 9, 13, 0.34);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
 }
 
@@ -879,7 +880,7 @@ main {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(8, 9, 13, 0.34);
 }
 
 .timeline p {
@@ -933,8 +934,8 @@ main {
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(224, 74, 63, 0.12), transparent 46%),
-    rgba(255, 255, 255, 0.04);
+    linear-gradient(135deg, rgba(224, 74, 63, 0.1), transparent 46%),
+    rgba(8, 9, 13, 0.36);
 }
 
 .contact strong {

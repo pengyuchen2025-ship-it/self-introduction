@@ -20,6 +20,21 @@
   <body class="is-loading">
     <canvas id="field" aria-hidden="true"></canvas>
 
+    <video
+      class="site-video-bg"
+      autoplay
+      loop
+      muted
+      playsinline
+      webkit-playsinline
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="assets/landing-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="site-video-shade" aria-hidden="true"></div>
+    <div class="noise-overlay site-video-noise" aria-hidden="true"></div>
+
     <div class="site-loader" role="status" aria-live="polite" aria-label="正在加载首页视频">
       <div class="site-loader-inner">
         <p class="site-loader-kicker">Loading visual intro</p>
@@ -49,20 +64,6 @@
     <main>
       <section class="landing-intro" id="intro" aria-label="陈鹏宇视觉首屏">
         <div class="landing-frame">
-          <video
-            class="landing-video"
-            autoplay
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            preload="auto"
-          >
-            <source src="assets/landing-bg.mp4" type="video/mp4" />
-          </video>
-          <div class="landing-shade" aria-hidden="true"></div>
-          <div class="noise-overlay landing-noise" aria-hidden="true"></div>
-
           <nav class="landing-nav" aria-label="视觉首屏导航">
             <a href="#hero">Home</a>
             <a href="#work">作品</a>

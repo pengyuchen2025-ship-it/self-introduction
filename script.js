@@ -9,7 +9,7 @@ let pointer = { x: 0, y: 0 };
 function setupLandingIntro() {
   const title = document.querySelector(".words-pull-up");
   const intro = document.querySelector(".landing-intro");
-  const video = document.querySelector(".landing-video");
+  const video = document.querySelector(".site-video-bg");
   const loader = document.querySelector(".site-loader");
   const loaderPercent = document.querySelector(".site-loader-percent");
   const loaderBar = document.querySelector(".site-loader-bar");
