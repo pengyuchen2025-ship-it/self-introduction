@@ -9,6 +9,7 @@ let pointer = { x: 0, y: 0 };
 function setupLandingIntro() {
   const title = document.querySelector(".words-pull-up");
   const intro = document.querySelector(".landing-intro");
+  const video = document.querySelector(".landing-video");
   const animatedItems = document.querySelectorAll(".words-pull-up, .fade-up");
 
   if (title) {
@@ -44,6 +45,16 @@ function setupLandingIntro() {
       { threshold: [0, 0.3, 0.65] },
     );
     introObserver.observe(intro);
+  }
+
+  if (video) {
+    const playVideo = () => {
+      video.muted = true;
+      video.play().catch(() => {});
+    };
+
+    playVideo();
+    window.addEventListener("touchstart", playVideo, { once: true, passive: true });
   }
 }
 
