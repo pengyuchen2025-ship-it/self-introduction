@@ -11,6 +11,7 @@ function setupLandingIntro() {
   const intro = document.querySelector(".landing-intro");
   const video = document.querySelector(".site-video-bg");
   const loader = document.querySelector(".site-loader");
+  const loaderKicker = document.querySelector(".site-loader-kicker");
   const loaderPercent = document.querySelector(".site-loader-percent");
   const loaderBar = document.querySelector(".site-loader-bar");
   const animatedItems = document.querySelectorAll(".words-pull-up, .fade-up");
@@ -100,38 +101,73 @@ function setupLandingIntro() {
   }
 
   if (video) {
+    let hasTriedTapPrompt = false;
+
     const playVideo = () => {
       video.muted = true;
-      video.play().catch(() => {});
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      return video.play();
+    };
+
+    const showTapPrompt = () => {
+      if (!loader || loaderDone || hasTriedTapPrompt) return;
+      hasTriedTapPrompt = true;
+      loaderTarget = 100;
+      loader.classList.add("needs-tap");
+      if (loaderKicker) {
+        loaderKicker.textContent = "轻触进入";
+      }
+      setLoaderProgress(100);
     };
 
     const syncBufferedProgress = () => {
       if (!video.duration || !video.buffered.length) return;
       const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-      const bufferedPercent = Math.min(94, (bufferedEnd / video.duration) * 100);
+      const bufferedPercent = Math.min(96, (bufferedEnd / video.duration) * 100);
       loaderTarget = Math.max(loaderTarget, bufferedPercent);
     };
 
-    const markVideoReady = () => {
+    const tryPlayVideo = () => {
       syncBufferedProgress();
-      playVideo();
+      playVideo().catch(() => {
+        setTimeout(showTapPrompt, 280);
+      });
+    };
+
+    const markVideoPlaying = () => {
+      if (video.currentTime === 0 && video.readyState < 3) return;
       finishLoading();
     };
 
     video.addEventListener("progress", syncBufferedProgress);
-    video.addEventListener("loadeddata", markVideoReady, { once: true });
-    video.addEventListener("canplay", markVideoReady, { once: true });
+    video.addEventListener("loadeddata", tryPlayVideo);
+    video.addEventListener("canplay", tryPlayVideo);
+    video.addEventListener("playing", markVideoPlaying, { once: true });
+    video.addEventListener("timeupdate", markVideoPlaying, { once: true });
     video.addEventListener("error", () => setTimeout(finishLoading, 600), { once: true });
 
     if (video.readyState >= 2) {
-      markVideoReady();
+      tryPlayVideo();
     } else {
       video.load();
-      playVideo();
+      tryPlayVideo();
     }
 
-    window.addEventListener("touchstart", playVideo, { once: true, passive: true });
-    setTimeout(finishLoading, 9000);
+    document.addEventListener("WeixinJSBridgeReady", tryPlayVideo, { once: true });
+    window.addEventListener(
+      "touchstart",
+      () => {
+        playVideo()
+          .then(markVideoPlaying)
+          .catch(() => {});
+      },
+      { once: true, passive: true },
+    );
+    setTimeout(showTapPrompt, 4500);
   } else {
     setTimeout(finishLoading, 500);
   }
