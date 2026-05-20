@@ -10,7 +10,59 @@ function setupLandingIntro() {
   const title = document.querySelector(".words-pull-up");
   const intro = document.querySelector(".landing-intro");
   const video = document.querySelector(".landing-video");
+  const loader = document.querySelector(".site-loader");
+  const loaderPercent = document.querySelector(".site-loader-percent");
+  const loaderBar = document.querySelector(".site-loader-bar");
   const animatedItems = document.querySelectorAll(".words-pull-up, .fade-up");
+  let loaderProgress = 0;
+  let loaderTarget = 12;
+  let loaderDone = false;
+
+  const setLoaderProgress = (value) => {
+    const progress = Math.max(0, Math.min(100, value));
+    if (loaderPercent) {
+      loaderPercent.textContent = `${Math.round(progress)}%`;
+    }
+    if (loaderBar) {
+      loaderBar.style.setProperty("--loader-progress", `${progress / 100}`);
+    }
+  };
+
+  const finishLoading = () => {
+    if (!loader || loaderDone) return;
+    loaderDone = true;
+    loaderTarget = 100;
+
+    const complete = () => {
+      loaderProgress += (loaderTarget - loaderProgress) * 0.18;
+      setLoaderProgress(loaderProgress);
+
+      if (loaderProgress < 99.4) {
+        requestAnimationFrame(complete);
+        return;
+      }
+
+      setLoaderProgress(100);
+      loader.classList.add("is-hidden");
+      document.body.classList.remove("is-loading");
+      setTimeout(() => loader.remove(), 800);
+    };
+
+    requestAnimationFrame(complete);
+  };
+
+  const tickLoader = () => {
+    if (!loader || loaderDone) return;
+    loaderTarget = Math.min(88, loaderTarget + 0.22);
+    loaderProgress += (loaderTarget - loaderProgress) * 0.075;
+    setLoaderProgress(loaderProgress);
+    requestAnimationFrame(tickLoader);
+  };
+
+  if (loader) {
+    setLoaderProgress(0);
+    requestAnimationFrame(tickLoader);
+  }
 
   if (title) {
     const text = title.dataset.text || title.textContent || "";
@@ -53,8 +105,35 @@ function setupLandingIntro() {
       video.play().catch(() => {});
     };
 
-    playVideo();
+    const syncBufferedProgress = () => {
+      if (!video.duration || !video.buffered.length) return;
+      const bufferedEnd = video.buffered.end(video.buffered.length - 1);
+      const bufferedPercent = Math.min(94, (bufferedEnd / video.duration) * 100);
+      loaderTarget = Math.max(loaderTarget, bufferedPercent);
+    };
+
+    const markVideoReady = () => {
+      syncBufferedProgress();
+      playVideo();
+      finishLoading();
+    };
+
+    video.addEventListener("progress", syncBufferedProgress);
+    video.addEventListener("loadeddata", markVideoReady, { once: true });
+    video.addEventListener("canplay", markVideoReady, { once: true });
+    video.addEventListener("error", () => setTimeout(finishLoading, 600), { once: true });
+
+    if (video.readyState >= 2) {
+      markVideoReady();
+    } else {
+      video.load();
+      playVideo();
+    }
+
     window.addEventListener("touchstart", playVideo, { once: true, passive: true });
+    setTimeout(finishLoading, 9000);
+  } else {
+    setTimeout(finishLoading, 500);
   }
 }
 
