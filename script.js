@@ -429,6 +429,148 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !preview.hidden) closePreview();
 });
 
+const galleryTrack = document.querySelector(".gallery-track");
+const galleryImages = galleryTrack ? [...galleryTrack.querySelectorAll("img")] : [];
+const mobileGalleryQuery = window.matchMedia("(max-width: 700px)");
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (char) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return entities[char];
+  });
+}
+
+function openGalleryImage(image) {
+  const title = image.alt || "AI 生图作品";
+  const imageSrc = image.currentSrc || image.src;
+  previewTitle.textContent = title;
+  previewLink.href = imageSrc;
+  previewFrame.removeAttribute("src");
+  previewFrame.srcdoc = `
+    <style>
+      body{margin:0;background:#050506;display:grid;place-items:center;min-height:100vh;padding:24px;box-sizing:border-box}
+      img{display:block;max-width:100%;max-height:88vh;object-fit:contain;border:1px solid rgba(245,240,223,.18);border-radius:8px;box-shadow:0 28px 90px rgba(0,0,0,.5)}
+    </style>
+    <img src="${imageSrc}" alt="${escapeHtml(title)}">
+  `;
+  preview.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function setupGalleryCarousel() {
+  if (!galleryTrack || galleryImages.length < 2) return;
+
+  let activeIndex = 0;
+  let autoTimer = null;
+  let resumeTimer = null;
+  let startX = 0;
+  let startY = 0;
+  let startScrollLeft = 0;
+  let isDragging = false;
+  let didDrag = false;
+
+  const getClosestIndex = () => {
+    const currentLeft = galleryTrack.scrollLeft;
+    return galleryImages.reduce((closestIndex, image, index) => {
+      const closestDistance = Math.abs(galleryImages[closestIndex].offsetLeft - currentLeft);
+      const distance = Math.abs(image.offsetLeft - currentLeft);
+      return distance < closestDistance ? index : closestIndex;
+    }, 0);
+  };
+
+  const scrollToImage = (index, behavior = "smooth") => {
+    activeIndex = (index + galleryImages.length) % galleryImages.length;
+    galleryTrack.scrollTo({
+      left: galleryImages[activeIndex].offsetLeft,
+      behavior,
+    });
+  };
+
+  const stopAuto = () => {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  };
+
+  const startAuto = () => {
+    if (!mobileGalleryQuery.matches || autoTimer) return;
+    autoTimer = setInterval(() => {
+      scrollToImage(getClosestIndex() + 1);
+    }, 2600);
+  };
+
+  const pauseThenResume = () => {
+    stopAuto();
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(startAuto, 3200);
+  };
+
+  galleryTrack.addEventListener("pointerdown", (event) => {
+    isDragging = true;
+    didDrag = false;
+    startX = event.clientX;
+    startY = event.clientY;
+    startScrollLeft = galleryTrack.scrollLeft;
+    galleryTrack.classList.add("is-dragging");
+    pauseThenResume();
+  });
+
+  galleryTrack.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+
+    if (Math.abs(deltaX) > 7 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      didDrag = true;
+      galleryTrack.scrollLeft = startScrollLeft - deltaX;
+    }
+  });
+
+  const endDrag = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    galleryTrack.classList.remove("is-dragging");
+    activeIndex = getClosestIndex();
+  };
+
+  galleryTrack.addEventListener("pointerup", endDrag);
+  galleryTrack.addEventListener("pointercancel", endDrag);
+  galleryTrack.addEventListener("pointerleave", endDrag);
+
+  galleryImages.forEach((image) => {
+    image.addEventListener("click", () => {
+      if (didDrag) return;
+      pauseThenResume();
+      openGalleryImage(image);
+    });
+  });
+
+  const galleryVisibilityObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        startAuto();
+      } else {
+        stopAuto();
+      }
+    },
+    { threshold: 0.35 },
+  );
+
+  galleryVisibilityObserver.observe(galleryTrack);
+  mobileGalleryQuery.addEventListener("change", () => {
+    stopAuto();
+    clearTimeout(resumeTimer);
+    if (mobileGalleryQuery.matches) startAuto();
+  });
+}
+
+setupGalleryCarousel();
+
 const revealItems = document.querySelectorAll(
   ".section-head, .gallery-track img, .timeline li, .service-grid article, .contact",
 );

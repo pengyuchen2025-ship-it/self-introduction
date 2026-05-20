@@ -1429,12 +1429,31 @@ main {
     overflow-x: auto;
     padding-bottom: 16px;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    touch-action: pan-x pan-y;
+    user-select: none;
   }
 
   .gallery-track img {
     flex: 0 0 72%;
     height: 360px;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+    cursor: zoom-in;
+    -webkit-user-drag: none;
+    transform: translateZ(0);
+  }
+
+  .gallery-track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
+  .gallery-track::-webkit-scrollbar {
+    display: none;
   }
 
   .gallery-track img:nth-child(2n) {
