@@ -1334,17 +1334,7 @@ main {
   }
 
   .work-menu {
-    position: sticky;
-    top: 68px;
-    display: flex;
-    gap: 10px;
-    width: calc(100vw - 24px);
-    max-width: calc(100vw - 24px);
-    margin: 0 0 18px;
-    padding: 10px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
+    display: none;
   }
 
   .work-menu-item {
