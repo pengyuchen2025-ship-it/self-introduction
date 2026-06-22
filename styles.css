@@ -1211,6 +1211,10 @@ main {
 }
 
 @media (max-width: 560px) {
+  html {
+    scroll-padding-top: 86px;
+  }
+
   .site-loader {
     padding: 22px 18px 34px;
   }
@@ -1313,6 +1317,11 @@ main {
 
   .section {
     margin-top: 84px;
+    scroll-margin-top: 86px;
+  }
+
+  .service {
+    padding-top: 28px;
   }
 
   .section-head {
@@ -1327,6 +1336,16 @@ main {
   .section-head p:not(.kicker) {
     font-size: 16px;
     line-height: 1.65;
+  }
+
+  .service-grid article {
+    min-height: auto;
+    padding: 22px;
+  }
+
+  .service-grid p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .work-scroll {
