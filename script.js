@@ -581,6 +581,10 @@ const observer = new IntersectionObserver(
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
         observer.unobserve(entry.target);
+        setTimeout(() => {
+          entry.target.classList.remove("reveal", "is-visible");
+          entry.target.style.transitionDelay = "";
+        }, 1200);
       }
     });
   },
@@ -589,5 +593,21 @@ const observer = new IntersectionObserver(
 
 revealItems.forEach((item) => {
   item.classList.add("reveal");
+  const siblingIndex = Array.from(item.parentElement.children).indexOf(item);
+  item.style.transitionDelay = `${Math.min(siblingIndex, 5) * 70}ms`;
   observer.observe(item);
 });
+
+const heroStage = document.querySelector(".hero-stage");
+const rigImage = document.querySelector(".image-rig img");
+if (heroStage && rigImage && window.matchMedia("(hover: hover)").matches && !mediaQuery.matches) {
+  heroStage.addEventListener("mousemove", (event) => {
+    const rect = heroStage.getBoundingClientRect();
+    const ratioX = (event.clientX - rect.left) / rect.width - 0.5;
+    const ratioY = (event.clientY - rect.top) / rect.height - 0.5;
+    rigImage.style.transform = `rotateX(${(-ratioY * 7).toFixed(2)}deg) rotateY(${(ratioX * 9).toFixed(2)}deg)`;
+  });
+  heroStage.addEventListener("mouseleave", () => {
+    rigImage.style.transform = "";
+  });
+}
