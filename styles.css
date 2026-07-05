@@ -53,14 +53,20 @@
   --shadow: rgba(0, 0, 0, 0.45);
   --card-shadow: inset 0 1px 0 rgba(246, 243, 231, 0.06), 0 24px 60px rgba(0, 0, 0, 0.32);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --neu-grad: linear-gradient(145deg, rgba(37, 35, 31, 0.92), rgba(19, 18, 16, 0.94));
-  --neu-out-sm: -4px -4px 10px rgba(246, 240, 222, 0.05), 6px 7px 16px rgba(0, 0, 0, 0.52),
-    inset 1px 1px 0 rgba(246, 243, 231, 0.07);
-  --neu-out: -8px -8px 22px rgba(246, 240, 222, 0.045), 10px 12px 30px rgba(0, 0, 0, 0.55),
-    inset 1px 1px 0 rgba(246, 243, 231, 0.07);
-  --neu-out-lg: -14px -14px 36px rgba(246, 240, 222, 0.04), 18px 22px 52px rgba(0, 0, 0, 0.55),
-    inset 1px 1px 0 rgba(246, 243, 231, 0.06);
-  --neu-in: inset 5px 5px 12px rgba(0, 0, 0, 0.55), inset -5px -5px 12px rgba(246, 240, 222, 0.05);
+  /* liquid glass: 透明磨砂底 + 边缘镀光 + 底部投影 */
+  --glass-bg: linear-gradient(
+    135deg,
+    rgba(246, 243, 231, 0.16),
+    rgba(246, 243, 231, 0.04) 42%,
+    rgba(246, 243, 231, 0.09)
+  );
+  --glass-panel: linear-gradient(160deg, rgba(40, 38, 34, 0.52), rgba(18, 17, 15, 0.48));
+  --glass-rim: inset 0 1.5px 1px rgba(255, 252, 240, 0.42), inset 0 -1px 1px rgba(255, 252, 240, 0.12),
+    inset 1px 0 1px rgba(255, 252, 240, 0.1), inset -1px 0 1px rgba(255, 252, 240, 0.1);
+  --glass-rim-soft: inset 0 1px 0 rgba(255, 252, 240, 0.18), inset 0 -1px 0 rgba(255, 252, 240, 0.05);
+  --glass-shadow-sm: 0 10px 26px rgba(0, 0, 0, 0.38);
+  --glass-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+  --glass-shadow-lg: 0 30px 72px rgba(0, 0, 0, 0.46);
   font-family: "Almarai", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "PingFang SC", "Microsoft YaHei", sans-serif;
 }
@@ -354,13 +360,13 @@ body.at-intro .topbar {
   padding: 6px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--neu-grad);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--neu-out-sm);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.35);
+  box-shadow: var(--glass-rim), var(--glass-shadow-sm);
 }
 
 .nav a:active {
-  box-shadow: var(--neu-in);
+  transform: scale(0.96);
 }
 
 .nav a {
@@ -607,13 +613,13 @@ main {
   justify-content: center;
   min-height: 46px;
   padding: 0 24px;
-  border: 1px solid rgba(246, 243, 231, 0.08);
+  border: 1px solid rgba(255, 252, 240, 0.22);
   border-radius: 999px;
   color: var(--ink);
-  background: var(--neu-grad);
+  background: var(--glass-bg);
   cursor: pointer;
-  backdrop-filter: blur(10px);
-  box-shadow: var(--neu-out-sm);
+  backdrop-filter: blur(18px) saturate(1.35);
+  box-shadow: var(--glass-rim), var(--glass-shadow-sm);
   transition: transform 200ms var(--ease-out), background 200ms ease, border-color 200ms ease,
     box-shadow 200ms ease;
 }
@@ -622,40 +628,55 @@ main {
 .project-open:active,
 .preview-bar a:active,
 .preview-bar button:active {
-  transform: translateY(1px);
-  box-shadow: var(--neu-in);
+  transform: scale(0.96) translateY(1px);
+  box-shadow: var(--glass-rim-soft), 0 5px 14px rgba(0, 0, 0, 0.32);
 }
 
 .button.primary {
-  border-color: transparent;
-  color: #171512;
-  background: linear-gradient(145deg, #fffdf3, #e6e0cb);
+  border-color: rgba(255, 252, 240, 0.38);
+  color: #fffdf3;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 252, 240, 0.34),
+    rgba(255, 252, 240, 0.1) 45%,
+    rgba(255, 252, 240, 0.2)
+  );
   font-weight: 700;
-  box-shadow: -6px -6px 16px rgba(246, 240, 222, 0.07), 8px 10px 24px rgba(0, 0, 0, 0.5),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--glass-rim), 0 14px 34px rgba(0, 0, 0, 0.42);
 }
 
 .button.primary:hover,
 .button.primary:focus-visible {
   transform: translateY(-2px);
-  box-shadow: -8px -8px 20px rgba(246, 240, 222, 0.09), 12px 14px 30px rgba(0, 0, 0, 0.55),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.85);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 252, 240, 0.44),
+    rgba(255, 252, 240, 0.16) 45%,
+    rgba(255, 252, 240, 0.28)
+  );
+  box-shadow: var(--glass-rim), 0 20px 44px rgba(0, 0, 0, 0.48);
   outline: none;
 }
 
 .button.primary:active {
-  transform: translateY(1px);
-  box-shadow: inset 4px 4px 10px rgba(120, 106, 78, 0.4), inset -4px -4px 10px #fffdf3;
+  transform: scale(0.96) translateY(1px);
+  box-shadow: var(--glass-rim-soft), 0 6px 16px rgba(0, 0, 0, 0.36);
 }
 
 .button.ghost:hover,
 .project-open:hover,
 .preview-bar a:hover,
 .preview-bar button:hover {
-  border-color: rgba(220, 200, 161, 0.5);
-  background: linear-gradient(145deg, rgba(48, 44, 38, 0.94), rgba(24, 22, 19, 0.94));
+  border-color: rgba(255, 252, 240, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(246, 243, 231, 0.24),
+    rgba(246, 243, 231, 0.08) 42%,
+    rgba(246, 243, 231, 0.14)
+  );
   transform: translateY(-2px);
-  box-shadow: var(--neu-out);
+  box-shadow: var(--glass-rim), var(--glass-shadow);
 }
 
 .hero-stage {
@@ -711,9 +732,9 @@ main {
   padding: 16px 18px;
   border: 1px solid rgba(246, 243, 231, 0.14);
   border-radius: 18px;
-  background: var(--neu-grad);
-  backdrop-filter: blur(16px);
-  box-shadow: var(--neu-out-sm), 0 20px 70px var(--shadow);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.35);
+  box-shadow: var(--glass-rim), 0 20px 70px var(--shadow);
 }
 
 .glass-panel span {
@@ -746,9 +767,9 @@ main {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 24px;
-  background: var(--neu-grad);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--neu-out-lg);
+  background: var(--glass-panel);
+  backdrop-filter: blur(22px) saturate(1.3);
+  box-shadow: var(--glass-rim-soft), var(--glass-shadow-lg);
 }
 
 .strip > div {
@@ -889,8 +910,8 @@ main {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 26px;
-  background: var(--neu-grad);
-  box-shadow: var(--neu-out-lg);
+  background: var(--glass-panel);
+  box-shadow: var(--glass-rim-soft), var(--glass-shadow-lg);
 }
 
 .project {
@@ -990,7 +1011,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 20px;
   object-fit: cover;
-  box-shadow: -6px -6px 16px rgba(246, 240, 222, 0.04), 10px 12px 28px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 252, 240, 0.14), 0 22px 54px rgba(0, 0, 0, 0.42);
   transition: transform 400ms var(--ease-out), filter 400ms ease, box-shadow 400ms ease;
 }
 
@@ -1021,15 +1042,16 @@ main {
   padding: 26px 28px;
   border: 1px solid var(--line);
   border-radius: 22px;
-  background: var(--neu-grad);
-  box-shadow: var(--neu-out);
+  background: var(--glass-panel);
+  backdrop-filter: blur(22px) saturate(1.3);
+  box-shadow: var(--glass-rim-soft), var(--glass-shadow);
   transition: transform 240ms var(--ease-out), border-color 240ms ease, box-shadow 240ms ease;
 }
 
 .timeline li:hover {
-  border-color: rgba(220, 200, 161, 0.3);
+  border-color: rgba(255, 252, 240, 0.26);
   transform: translateX(8px);
-  box-shadow: var(--neu-out-lg);
+  box-shadow: var(--glass-rim-soft), var(--glass-shadow-lg);
 }
 
 .timeline li span {
@@ -1037,10 +1059,10 @@ main {
   align-items: center;
   width: fit-content;
   padding: 8px 15px;
-  border: 1px solid rgba(220, 200, 161, 0.16);
+  border: 1px solid rgba(255, 252, 240, 0.24);
   border-radius: 999px;
-  background: rgba(15, 14, 13, 0.5);
-  box-shadow: var(--neu-in);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-rim);
 }
 
 .timeline p {
@@ -1083,22 +1105,25 @@ main {
   width: 46px;
   height: 46px;
   content: "→";
-  border: 1px solid rgba(246, 243, 231, 0.08);
+  border: 1px solid rgba(255, 252, 240, 0.24);
   border-radius: 999px;
-  color: var(--beige);
-  background: var(--neu-grad);
+  color: var(--ink);
+  background: var(--glass-bg);
   font-size: 19px;
   line-height: 1;
-  box-shadow: var(--neu-out-sm);
+  box-shadow: var(--glass-rim), var(--glass-shadow-sm);
   transition: transform 260ms var(--ease-out), background 260ms ease, color 260ms ease,
     border-color 260ms ease, box-shadow 260ms ease;
 }
 
+.service-grid article {
+  backdrop-filter: blur(22px) saturate(1.3);
+}
+
 .service-grid article:hover {
-  border-color: rgba(220, 200, 161, 0.34);
+  border-color: rgba(255, 252, 240, 0.28);
   transform: translateY(-6px);
-  box-shadow: -16px -16px 40px rgba(246, 240, 222, 0.05), 22px 26px 60px rgba(0, 0, 0, 0.6),
-    inset 1px 1px 0 rgba(246, 243, 231, 0.08);
+  box-shadow: var(--glass-rim-soft), 0 38px 84px rgba(0, 0, 0, 0.52);
 }
 
 .service-grid article:hover::before {
@@ -1137,9 +1162,9 @@ main {
   background:
     radial-gradient(circle at 88% 0%, rgba(224, 145, 170, 0.09), transparent 22rem),
     linear-gradient(135deg, rgba(220, 200, 161, 0.08), transparent 46%),
-    var(--neu-grad);
-  box-shadow: var(--neu-out-lg);
-  backdrop-filter: blur(18px);
+    var(--glass-panel);
+  box-shadow: var(--glass-rim-soft), var(--glass-shadow-lg);
+  backdrop-filter: blur(22px) saturate(1.3);
 }
 
 .contact strong {
@@ -1345,9 +1370,9 @@ main {
     overflow-x: auto;
     border: 1px solid var(--line);
     border-radius: 18px;
-    background: var(--neu-grad);
-    backdrop-filter: blur(16px);
-    box-shadow: var(--neu-out-sm);
+    background: var(--glass-panel);
+    backdrop-filter: blur(20px) saturate(1.3);
+    box-shadow: var(--glass-rim-soft), var(--glass-shadow-sm);
   }
 
   .work-menu::before,
