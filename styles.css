@@ -899,6 +899,11 @@ main {
   transform: rotate(0.8deg) translateY(30px);
 }
 
+.project:nth-child(5) {
+  z-index: 5;
+  transform: rotate(-0.9deg) translateY(40px);
+}
+
 .project img {
   position: absolute;
   inset: 0;
