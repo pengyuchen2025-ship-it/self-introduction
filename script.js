@@ -395,6 +395,51 @@ window.addEventListener(
 window.addEventListener("resize", updateActiveProjectFromScroll);
 updateActiveProjectFromScroll();
 
+// 卡片是粘性堆叠的：滚过之后 offsetTop 会带上粘性位移，不能直接用。
+// 这里用前面卡片的布局高度累加出目标卡在滚动轴上的原始位置，
+// 再用逐帧强制定位的动画滚过去（平滑滚动会被粘性重排打断，不可靠）。
+let menuScrollRaf = 0;
+
+function projectNaturalTop(target) {
+  let top = workGrid.getBoundingClientRect().top + window.scrollY;
+  if (window.innerWidth <= 560) {
+    return top + target.offsetTop;
+  }
+  for (const other of projects) {
+    if (other === target) break;
+    top += other.offsetHeight + parseFloat(getComputedStyle(other).marginBottom);
+  }
+  return top;
+}
+
+function animateScrollTo(top, onDone) {
+  cancelAnimationFrame(menuScrollRaf);
+  if (mediaQuery.matches) {
+    window.scrollTo({ top, behavior: "instant" });
+    onDone?.();
+    return;
+  }
+  const start = window.scrollY;
+  const distance = top - start;
+  const duration = Math.min(850, 320 + Math.abs(distance) * 0.09);
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min((now - t0) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    window.scrollTo({ top: start + distance * eased, behavior: "instant" });
+    if (t < 1) {
+      menuScrollRaf = requestAnimationFrame(step);
+    } else {
+      onDone?.();
+    }
+  };
+  menuScrollRaf = requestAnimationFrame(step);
+}
+
+["wheel", "touchstart"].forEach((type) => {
+  window.addEventListener(type, () => cancelAnimationFrame(menuScrollRaf), { passive: true });
+});
+
 workMenuItems.forEach((item) => {
   item.addEventListener("click", (event) => {
     event.preventDefault();
@@ -403,12 +448,9 @@ workMenuItems.forEach((item) => {
     if (target && workGrid) {
       setActiveProject(targetId);
       const stickyOffset = window.innerWidth <= 560 ? 148 : window.innerWidth <= 920 ? 156 : 126;
-      const gridTop = workGrid.getBoundingClientRect().top + window.scrollY;
-      const targetTop = gridTop + target.offsetTop - stickyOffset;
-      window.scrollTo({
-        top: targetTop,
-        behavior: mediaQuery.matches ? "auto" : "smooth",
-      });
+      animateScrollTo(Math.max(projectNaturalTop(target) - stickyOffset, 0), () =>
+        requestAnimationFrame(() => setActiveProject(targetId)),
+      );
       history.replaceState(null, "", `#${targetId}`);
     }
   });
